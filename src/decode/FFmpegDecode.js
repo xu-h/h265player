@@ -1,7 +1,7 @@
 /**
  * @copyright: Copyright (C) 2019
  * @desc: wasm methods to decode
- * @author: liuliguo 
+ * @author: liuliguo
  * @file: FFmpegDecode.js
  */
 export default class FFmpegDecode {
@@ -38,8 +38,8 @@ export default class FFmpegDecode {
         pts
       }
       that.result.push(obj)
-    })
-    Module._openDecoder(videoCallback, 1)
+    }, 'viiiiiiiii')
+    Module._openDecoder(2, videoCallback, 1)
   }
   decodeData(pes, pts) {
     let fileSize = pes.length
@@ -68,5 +68,5 @@ export default class FFmpegDecode {
     let length = this.result.length
     return length > 0
   }
-  
+
 }

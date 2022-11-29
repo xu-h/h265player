@@ -1,7 +1,7 @@
 /**
  * @copyright: Copyright (C) 2019
  * @desc: decode h265 data
- * @author: liuliguo 
+ * @author: liuliguo
  * @file: Decode.js
  */
 import { AV_TIME_BASE_Q } from '../config/Config.js'
@@ -27,7 +27,7 @@ class Decode {
       }
     }
     // self.importScripts(libPath + 'TAppDecoderStatic.js')
-    self.importScripts(libPath + 'libffmpeg.js')
+    self.importScripts(libPath + 'libffmpeg_avs.js')
     self.Module.onRuntimeInitialized = function() {
       console.log('wasm loaded')
       if (!Module._web_decoder_open) {

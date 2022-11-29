@@ -1,7 +1,7 @@
 /**
  * @copyright: Copyright (C) 2019
  * @desc: ts packet demux
- * @author: liuliguo 
+ * @author: liuliguo
  * @file: TsDemux.js
  */
 
@@ -99,6 +99,9 @@ class TsDemux {
     switch (streamType) {
       //h265
       case 36:
+      // avs3
+      case 212:
+      case 214:
         this.videoQueue(pes)
         break
       case 3:
