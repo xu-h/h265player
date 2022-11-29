@@ -3,13 +3,13 @@
 <meta http-equiv=Content-Type content="text/html;charset=utf-8">
 <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
 <meta content=always name=referrer>
-<link rel="shortcut icon" href=/favicon.ico type=image/x-icon> <title>H.265在线播放器DEMO</title>
+<link rel="shortcut icon" href=/favicon.ico type=image/x-icon> <title>AVS Player Demo</title>
 <link rel="stylesheet" href="../dist/goldplay-h265.css">
 <script src="../dist/goldplay-h265-sdk.js"></script>
 <style>
   .play-container {
-    width: 800px;
-    height: 600px;
+    width: 1080px;
+    height: 720px;
     /* background-color: #000; */
     margin: 20px 0 0 100px;
     float:left;
@@ -24,47 +24,49 @@
 
 <body>
   <div id="PlayerWrapper">
-    <h3>H.265 Player <b>在线播放器Demo1</b><em class="demo1" id="Demo1">DEMO</em></h3>
+    <h3>Player Demo<b></b><em class="demo1" id="Demo1">DEMO</em></h3>
+    <div>
+      <input type="button" id="play_btn" value="play"/>
+      <input type="button" id="pause_btn" value="pause"/>
+      <input type="button" class="switch_btn" value="switch to video 1"/>
+      <input type="button" class="switch_btn" value="switch to video 2"/>
+      <input type="button" class="switch_btn" value="switch to video 3"/>
+    </div>
     <div class="play-container"></div>
-    <input type="button" id="change" value=change/>
   </div>
   <br clear="all">
   <br>
   <script>
     (function (win, doc) {
-      const Config = {
-        get basePath() {
-          let path = win.location.origin
-          let pathname = win.location.pathname
-          let demoIdx = pathname.lastIndexOf('/demo/')
-          return path + pathname.substr(0, demoIdx)
-        },
-        get buildPath() {
-          return this.basePath + '/dist/'
-        },
-        get libPath() {
-          return this.buildPath + 'lib/'
-        },
-        get src() {
-          return this.basePath + '/data/video2/playlist.m3u8'
-        }
-      }
       let el = doc.querySelector('.play-container')
+      let origin = window.origin
       let player = new GoldPlay(el, {
-        // sourceURL: Config.src,
-        sourceURL: 'https://livecbing.alicdn.com/mediaplatform/0083f18b-3e8e-4932-8b73-b37647a0aa14_merge.m3u8',
+        sourceURL: origin + '/data/playlist1.m3u8',
         type: 'HLS',
-        libPath: Config.libPath,
+        libPath: origin + '/dist/lib/',
         playBackRate: 1,
-        rateList: [
-          {"url":"http://localhost:9011/gitwork/goldplay/h265player/data/video1/playlist.m3u8","id":51,"name":"720P","value":"720"},
-           {"url":"http://localhost:9011/gitwork/goldplay/h265player/data/video3/playlist.m3u8","id":51,"name":"高清","value":"600"}
-        ]
       })
-      document.querySelector('#change').onclick = function(){
-        player.changeSrc('http://localhost:9011/gitwork/goldplay/h265player/data/video1/playlist.m3u8')
+
+      document.querySelector('#play_btn').onclick = function (){
+        player.play()
       }
-      // player.destroy()
+      document.querySelector('#pause_btn').onclick = function (){
+        player.pause()
+      }
+      document.querySelectorAll('.switch_btn').forEach(function (btn) {
+        btn.onclick= function () {
+          let idx = btn.value[btn.value.length - 1]
+          url = origin + '/data/playlist' + idx + '.m3u8'
+          // player.changeSrc(url)
+          player.destroy()
+          player = new GoldPlay(el, {
+            sourceURL: url,
+            type: 'HLS',
+            libPath: origin + '/lib/',
+            playBackRate: 1,
+          })
+        }
+      })
     })(window, document)
   </script>
 </body>
